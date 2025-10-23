@@ -1,4 +1,4 @@
-# Portfolio Starter (No‑framework)
+# Portfolio Starter
 
 This is a single‑file portfolio you can deploy to **GitHub Pages** in minutes.
 
