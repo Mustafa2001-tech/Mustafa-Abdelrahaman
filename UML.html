@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse UML Class Diagram (Composite Pattern)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+        .uml-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .class-box {
+            background-color: #ffffff;
+            border: 2px solid #003366;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            margin-bottom: 20px;
+        }
+        .abstract-class-box {
+            background-color: #e6f0ff;
+            border-color: #346A8C;
+        }
+        .class-title {
+            background-color: #003366;
+            color: white;
+            padding: 8px 12px;
+            font-weight: 700;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            text-align: center;
+        }
+        .class-title.abstract {
+            background-color: #346A8C;
+            font-style: italic;
+        }
+        .section-header {
+            font-weight: 700;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .attribute, .method {
+            padding: 2px 12px;
+            font-size: 0.85rem;
+            color: #333;
+        }
+        .method {
+            border-top: 1px dashed #e0e0e0;
+        }
+        .abstract-method {
+            font-style: italic;
+            color: #555;
+        }
+        .relation-line {
+            position: absolute;
+            height: 2px;
+            background-color: #003366;
+        }
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid #003366;
+            position: absolute;
+        }
+        /* --- Composite Pattern Layout --- */
+        .composite-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+        .composite-children {
+            display: flex;
+            gap: 100px;
+            margin-top: 50px;
+        }
+        .inheritance-line {
+            border-left: 2px solid #003366;
+            height: 50px;
+            position: relative;
+            margin-top: -20px;
+        }
+        .inheritance-head {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid #003366;
+            position: absolute;
+            top: -15px;
+            left: -10px;
+        }
+        .composite-connect-line {
+            position: relative;
+            height: 20px;
+            border-top: 2px solid #003366;
+            width: 100%;
+            margin-top: -20px;
+            z-index: -1;
+        }
+        .agg-line {
+            position: absolute;
+            border-right: 2px solid #003366;
+            height: 100px;
+            top: 50%;
+            right: -2px;
+            transform: translateY(-50%);
+        }
+        .agg-diamond {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border: 2px solid #003366;
+            transform: rotate(45deg);
+            position: absolute;
+            top: -7px;
+            left: -13px;
+        }
+    </style>
+</head>
+<body class="p-8">
+
+    <h1 class="text-3xl font-bold text-center text-[#003366] mb-8">UML Class Diagram: Warehouse Inventory (Composite Pattern)</h1>
+    <p class="text-center text-slate-600 mb-10">This diagram illustrates the core Inventory classes based on the requested **Composite Pattern** structure.</p>
+
+    <div class="flex justify-center w-full">
+        <div class="uml-container">
+            <!-- 1. COMPONENT (ABSTRACT) -->
+            <div class="composite-layout relative">
+                <div class="class-box abstract-class-box" id="abstract-item">
+                    <div class="class-title abstract">
+                        &lt;&lt;Abstract&gt;&gt; AbstractWarehouseItem
+                    </div>
+                    <div class="section-header">Attributes</div>
+                    <div class="attribute">- id: String</div>
+                    <div class="attribute">- location: String</div>
+                    <div class="attribute">- weight: double</div>
+                    <div class="section-header">Methods</div>
+                    <div class="method abstract-method">+ calculateRetrievalTime(): double</div>
+                    <div class="method">+ add(item: AbstractWarehouseItem): void</div>
+                    <div class="method">+ remove(item: AbstractWarehouseItem): void</div>
+                    <div class="method">+ getChild(i: int): AbstractWarehouseItem</div>
+                </div>
+
+                <!-- Inheritance Lines -->
+                <div class="inheritance-line w-full">
+                    <div class="inheritance-head"></div>
+                </div>
+
+                <!-- 2. LEAF AND COMPOSITE LAYOUT -->
+                <div class="composite-children">
+                    <!-- 2. LEAF -->
+                    <div class="class-box" id="single-item">
+                        <div class="class-title">SingleItem (Leaf)</div>
+                        <div class="section-header">Attributes</div>
+                        <div class="attribute">- itemKind: String</div>
+                        <div class="attribute">- demandFactor: int</div>
+                        <div class="section-header">Methods</div>
+                        <div class="method">+ calculateRetrievalTime(): double</div>
+                        <div class="method abstract-method">+ add(...): void (Unsupported)</div>
+                        <div class="method abstract-method">+ remove(...): void (Unsupported)</div>
+                        <div class="method abstract-method">+ getChild(...): AbstractWarehouseItem (Unsupported)</div>
+                    </div>
+                    
+                    <!-- 3. COMPOSITE -->
+                    <div class="class-box relative" id="pallet-crate">
+                        <div class="class-title">PalletOrCrate (Composite)</div>
+                        <div class="section-header">Attributes</div>
+                        <div class="attribute">- children: List&lt;AbstractWarehouseItem&gt;</div>
+                        <div class="section-header">Methods</div>
+                        <div class="method">+ calculateRetrievalTime(): double</div>
+                        <div class="method">+ add(item: AbstractWarehouseItem): void</div>
+                        <div class="method">+ remove(item: AbstractWarehouseItem): void</div>
+                        <div class="method">+ getChild(i: int): AbstractWarehouseItem</div>
+
+                        <!-- Aggregation Symbol -->
+                        <div class="agg-line" style="top: 50%; right: -100px; height: 0; width: 100px;">
+                            <div class="agg-diamond" style="left: 0; top: -5px;"></div>
+                            <span style="position: absolute; left: 18px; top: -20px; font-size: 0.8rem;">1 parent</span>
+                            <div style="position: absolute; right: 0; top: -20px; font-size: 0.8rem; color: #003366;">0..* child</div>
+                            <div style="position: absolute; right: 0; top: -5px; width: 10px; height: 10px; border-top: 2px solid #003366; border-right: 2px solid #003366; transform: rotate(45deg);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h2 class="text-xl font-bold text-center text-[#003366] mt-10 mb-4">Supporting Classes (Context)</h2>
+    <p class="text-center text-slate-600 mb-6">These classes contain the main logic and data structures for the simulation engine.</p>
+
+    <div class="flex justify-center gap-12">
+        <!-- WAREHOUSE CLASS -->
+        <div class="class-box">
+            <div class="class-title">Warehouse</div>
+            <div class="section-header">Attributes</div>
+            <div class="attribute">- shelves: Map&lt;String, List&lt;AbstractWarehouseItem&gt;&gt;</div>
+            <div class="attribute">- totalFulfillmentTime: double</div>
+            <div class="section-header">Methods</div>
+            <div class="method">+ runSimulationStep(): void</div>
+            <div class="method">+ optimizeLocations(): void (Phase 2)</div>
+            <div class="method">+ calculateImprovement(): double</div>
+        </div>
+        <!-- ORDER CLASS -->
+        <div class="class-box">
+            <div class="class-title">Order</div>
+            <div class="section-header">Attributes</div>
+            <div class="attribute">- orderId: String</div>
+            <div class="attribute">- requestedItems: Map&lt;String, Integer&gt;</div>
+            <div class="section-header">Methods</div>
+            <div class="method">+ isComplete(): boolean</div>
+        </div>
+    </div>
+
+</body>
+</html>
